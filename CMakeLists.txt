@@ -56,6 +56,8 @@ else()
 endif()
 add_definitions( -DUSE_FLOAT )
 
+#set(EIGEN3_DIR, /Users/chncwang/Documents/Projects/N3LDGClassifier/eigen)
+#set(N3LDG_DIR, /Users/chncwang/Documents/Projects/N3LDGClassifier/N3LDG)
 include_directories(${EIGEN3_DIR})
 include_directories(${N3LDG_DIR})
 
