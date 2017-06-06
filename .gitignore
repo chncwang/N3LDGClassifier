@@ -1,0 +1,15 @@
+.cproject
+.idea/
+.project
+*.swp
+bin/
+.settings/
+eigen/
+Makefile
+*.cmake
+N3LDG/
+*.cbp
+cmake-build-debug/
+build/
+CMakeFiles
+tags

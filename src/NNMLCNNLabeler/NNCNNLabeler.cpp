@@ -108,10 +108,7 @@ void Classifier::convert2Example(const Instance* pInstance, Example& exam) {
 	vector<dtype> curlabels;
 	for (int j = 0; j < numLabel; ++j) {
 		string str = m_driver._modelparams.labelAlpha.from_id(j);
-		if (str.compare(orcale) == 0)
-			curlabels.push_back(1.0);
-		else
-			curlabels.push_back(0.0);
+		curlabels.push_back(str.compare(orcale) == 0? 1.0 : 0.0);
 	}
 
 	exam.m_label = curlabels;
