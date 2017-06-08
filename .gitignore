@@ -13,3 +13,4 @@ cmake-build-debug/
 build/
 CMakeFiles
 tags
+compile_commands.json
