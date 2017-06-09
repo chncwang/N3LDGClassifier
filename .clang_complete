@@ -1,0 +1,5 @@
+-DDEBUG
+-I/Users/chncwang/Documents/Projects/N3LDGClassifier/eigen
+-I/Users/chncwang/Documents/Projects/N3LDGClassifier/N3LDG
+-I/Users/chncwang/Documents/Projects/N3LDGClassifier/src/basic
+-I/Users/chncwang/Documents/Projects/N3LDGClassifier/src/NNCNNLabeler/model

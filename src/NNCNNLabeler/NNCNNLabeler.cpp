@@ -4,12 +4,10 @@
 #include "Argument_helper.h"
 
 Classifier::Classifier(int memsize) : m_driver(memsize) {
-  // TODO Auto-generated constructor stub
   srand(0);
 }
 
 Classifier::~Classifier() {
-  // TODO Auto-generated destructor stub
 }
 
 int Classifier::createAlphabet(const vector<Instance> &vecInsts) {
