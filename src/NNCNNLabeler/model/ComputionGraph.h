@@ -94,7 +94,6 @@ public:
     _min_pooling.forward(_pcg, getPNodes(_hidden, words_num));
     _concat.forward(_pcg, &_avg_pooling, &_max_pooling, &_min_pooling);
     _neural_output.forward(_pcg, &_concat);
-
   }
 };
 
