@@ -13,3 +13,7 @@ cmake-build-debug/
 build/
 CMakeFiles
 tags
+<<<<<<< HEAD
+compile_commands.json
+=======
+>>>>>>> 553633d02ccfedaf921728ab1a070cd9af1fc736
