@@ -64,12 +64,12 @@ public:
 
     for (DropoutNode &node : _dropout_nodes_after_input_nodes) {
       node.init(opts.wordDim);
-      node.setParam(0.2);
+      node.setParam(0.5);
     }
 
     for (DropoutNode &node : _dropout_nodes_after_hidden_nodes) {
       node.init(opts.hiddenSize);
-      node.setParam(0.5);
+      node.setParam(0.8);
     }
 
     _word_window.init(opts.wordDim, opts.wordContext, mem);

@@ -212,6 +212,7 @@ void Classifier::train(const string &trainFile, const string &devFile,
   static Metric eval, metric_dev, metric_test;
   static vector<Example> subExamples;
   int devNum = devExamples.size(), testNum = testExamples.size();
+  int non_exceeds_time = 0;
   for (int iter = 0; iter < m_options.maxIter; ++iter) {
     std::cout << "##### Iteration " << iter << std::endl;
 
@@ -249,7 +250,6 @@ void Classifier::train(const string &trainFile, const string &devFile,
     std::cout << "Train finished. Total time taken is: "
               << std::chrono::duration<double>(time_end - time_start).count()
               << "s" << std::endl;
-
 
     if (devNum > 0) {
       auto time_start = std::chrono::high_resolution_clock::now();
@@ -343,10 +343,13 @@ void Classifier::train(const string &trainFile, const string &devFile,
       if (m_options.saveIntermediate && metric_dev.getAccuracy() > bestDIS) {
         std::cout << "Exceeds best previous performance of " << bestDIS
                   << ". Saving model file.." << std::endl;
+        non_exceeds_time = 0;
         bestDIS = metric_dev.getAccuracy();
         writeModelFile(modelFile);
+      } else if (++non_exceeds_time > 10) {
+        std::cout << "iter:" << iter << std::endl;
+        break;
       }
-
     }
     // Clear gradients
   }
