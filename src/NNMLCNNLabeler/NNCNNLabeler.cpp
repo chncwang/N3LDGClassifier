@@ -2,6 +2,9 @@
 
 #include <chrono>
 #include "Argument_helper.h"
+#include "MultiOP.h" // TODO just for fix compilation error in time.
+#include "TriOP.h"
+#include "LSTM.h"
 
 Classifier::Classifier(int memsize) : m_driver(memsize) {
   // TODO Auto-generated constructor stub
@@ -422,6 +425,10 @@ void Classifier::writeModelFile(const string &outputModelFile) {
 
 
 int main(int argc, char *argv[]) {
+  MultiParams<3> multiparams;
+  TriParams triParams;
+  LSTMParams lstmParams;
+  MultiNode<3> a;
 
   std::string trainFile = "", devFile = "", testFile = "", modelFile = "", optionFile = "";
   std::string outputFile = "";

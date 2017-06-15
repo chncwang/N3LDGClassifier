@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/Users/chncwang/Documents/Projects/N3LDGClassifier/src/NNCNNLabeler",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -DUSE_FLOAT -I/Users/chncwang/Documents/Projects/N3LDGClassifier/eigen -I/Users/chncwang/Documents/Projects/N3LDGClassifier/N3LDG -I/Users/chncwang/Documents/Projects/N3LDGClassifier/src/basic -I/Users/chncwang/Documents/Projects/N3LDGClassifier/src/NNCNNLabeler/model   -DEIGEN_FAST_MATH -w -msse3 -funroll-loops  -std=c++11 -O0 -pg -g   -o CMakeFiles/NNCNNLabeler.dir/NNCNNLabeler.cpp.o -c /Users/chncwang/Documents/Projects/N3LDGClassifier/src/NNCNNLabeler/NNCNNLabeler.cpp",
+  "file": "/Users/chncwang/Documents/Projects/N3LDGClassifier/src/NNCNNLabeler/NNCNNLabeler.cpp"
+},
+{
+  "directory": "/Users/chncwang/Documents/Projects/N3LDGClassifier/src/NNMLCNNLabeler",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -DUSE_FLOAT -I/Users/chncwang/Documents/Projects/N3LDGClassifier/eigen -I/Users/chncwang/Documents/Projects/N3LDGClassifier/N3LDG -I/Users/chncwang/Documents/Projects/N3LDGClassifier/src/basic -I/Users/chncwang/Documents/Projects/N3LDGClassifier/src/NNMLCNNLabeler/model   -DEIGEN_FAST_MATH -w -msse3 -funroll-loops  -std=c++11 -O0 -pg -g   -o CMakeFiles/NNMLCNNLabeler.dir/NNCNNLabeler.cpp.o -c /Users/chncwang/Documents/Projects/N3LDGClassifier/src/NNMLCNNLabeler/NNCNNLabeler.cpp",
+  "file": "/Users/chncwang/Documents/Projects/N3LDGClassifier/src/NNMLCNNLabeler/NNCNNLabeler.cpp"
+}
+]
