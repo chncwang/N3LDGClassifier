@@ -78,7 +78,7 @@ public:
       return;
     }
     _modelparams.exportModelParams(_ada);
-    //_modelparams.exportCheckGradParams(_checkgrad);
+    _modelparams.exportCheckGradParams(_checkgrad);
 
     _hyperparams.print();
 

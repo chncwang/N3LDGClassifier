@@ -236,15 +236,15 @@ void Classifier::train(const string &trainFile, const string &devFile,
       eval.overall_label_count += m_driver._eval.overall_label_count;
       eval.correct_label_count += m_driver._eval.correct_label_count;
 
-      if ((curUpdateIter + 1) % m_options.verboseIter == 0) {
-        //m_driver.checkgrad(subExamples, curUpdateIter + 1);
-        std::cout << "current: " << updateIter + 1 << ", total block: "
-                  << batchBlock << std::endl;
-        std::cout << "Cost = " << cost << ", Tag Correct(%) = "
-                  << eval.getAccuracy() << std::endl;
-      }
+//      if ((curUpdateIter + 1) % m_options.verboseIter == 0) {
+//        m_driver.checkgrad(subExamples, curUpdateIter + 1);
+//        std::cout << "current: " << updateIter + 1 << ", total block: "
+//                  << batchBlock << std::endl;
+//        std::cout << "Cost = " << cost << ", Tag Correct(%) = "
+//                  << eval.getAccuracy() << std::endl;
+//      }
       m_driver.updateModel();
-
+	
     }
     auto time_end = std::chrono::high_resolution_clock::now();
     std::cout << "Train finished. Total time taken is: "
@@ -421,7 +421,6 @@ void Classifier::writeModelFile(const string &outputModelFile) {
 
 
 int main(int argc, char *argv[]) {
-
   std::string trainFile = "", devFile = "", testFile = "", modelFile = "", optionFile = "";
   std::string outputFile = "";
   bool bTrain = false;

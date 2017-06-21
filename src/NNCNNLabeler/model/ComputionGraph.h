@@ -2,7 +2,7 @@
 #define SRC_ComputionGraph_H_
 
 #include "ModelParams.h"
-#include <boost/range/irange.hpp>
+#include "LSTM.h"
 
 // Each model consists of two parts, building neural graph and defining output losses.
 class GraphBuilder {
@@ -11,7 +11,9 @@ private:
   vector<DropoutNode> _dropout_nodes_after_input_nodes;
   vector<DropoutNode> _dropout_nodes_after_hidden_nodes;
   WindowBuilder _word_window;
-  vector<UniNode> _hidden;
+
+  LSTMBuilder _lstm_builder;
+  //vector<UniNode> _hidden_nodes;
 
   AvgPoolNode _avg_pooling;
   MaxPoolNode _max_pooling;
@@ -36,19 +38,20 @@ public:
   inline void createNodes(int sent_length) {
     _word_inputs.resize(sent_length);
     _word_window.resize(sent_length);
-    _hidden.resize(sent_length);
+    _lstm_builder.resize(sent_length);
     _dropout_nodes_after_input_nodes.resize(sent_length);
     _dropout_nodes_after_hidden_nodes.resize(sent_length);
-
     _avg_pooling.setParam(sent_length);
     _max_pooling.setParam(sent_length);
     _min_pooling.setParam(sent_length);
+	//_hidden_nodes.resize(sent_length);
   }
 
   inline void clear() {
     _word_inputs.clear();
     _word_window.clear();
-    _hidden.clear();
+	//_hidden_nodes.clear();
+	_lstm_builder.clear();
   }
 
 public:
@@ -58,21 +61,33 @@ public:
     for (int idx = 0; idx < _word_inputs.size(); idx++) {
       _word_inputs[idx].setParam(&model.words);
       _word_inputs[idx].init(opts.wordDim, mem);
-      _hidden[idx].setParam(&model.hidden_linear);
-      _hidden[idx].init(opts.hiddenSize, mem);
+	  _word_inputs[idx].tag = "word_input";
     }
+	_lstm_builder.init(&model.lstm_params, 0.0, true, mem);
 
-    for (DropoutNode &node : _dropout_nodes_after_input_nodes) {
+   for (DropoutNode &node : _dropout_nodes_after_input_nodes) {
       node.init(opts.wordDim);
-      node.setParam(0.5);
+      node.setParam(0.0);
+	  node.tag = "dropout node after input node";
     }
 
     for (DropoutNode &node : _dropout_nodes_after_hidden_nodes) {
       node.init(opts.hiddenSize);
-      node.setParam(0.8);
+      node.setParam(0.0);
+	  node.tag = "dropout node after hidden node";
     }
 
+	//for (UniNode &node : _hidden_nodes) {
+	//	node.init(opts.hiddenSize);
+	//	node.setParam(&model.hidden_linear);
+	//}
+
     _word_window.init(opts.wordDim, opts.wordContext, mem);
+	int i = 0;
+	for (Node &node : _word_window._outputs) {
+		node.tag = "word_window_output" + std::to_string(i++);
+		}
+
     _avg_pooling.init(opts.hiddenSize, mem);
     _max_pooling.init(opts.hiddenSize, mem);
     _min_pooling.init(opts.hiddenSize, mem);
@@ -96,19 +111,31 @@ public:
       _word_inputs[i].forward(_pcg, feature.m_words[i]);
     }
 
-    for (int i : boost::irange(0, words_num)) {
+	vector<Node *> word_input_ptrs;
+	for (LookupNode &n : _word_inputs) {
+		word_input_ptrs.push_back(&n);
+	}
+
+	for (int i = 0; i < words_num; ++i) {
       _dropout_nodes_after_input_nodes[i].forward(_pcg, &_word_inputs[i]);
     }
 
-    _word_window.forward(_pcg,
+   _word_window.forward(_pcg,
         getPNodes(_dropout_nodes_after_input_nodes, words_num));
 
-    for (int i = 0; i < words_num; i++) {
-      _hidden[i].forward(_pcg, &_word_window._outputs[i]);
-    }
+    //for (int i = 0; i < words_num; i++) {
+    //  _hidden_nodes[i].forward(_pcg, &_word_window._outputs[i]);
+    //}
 
-    for (int i : boost::irange(0, words_num)) {
-      _dropout_nodes_after_hidden_nodes[i].forward(_pcg, &_hidden[i]);
+	vector<PNode> word_window_outputs_ptrs;
+	for (ConcatNode & node : _word_window._outputs) {
+		word_window_outputs_ptrs.push_back(&node);
+	}
+	_lstm_builder.forward(_pcg, word_window_outputs_ptrs, words_num);
+
+	for (int i = 0; i < words_num; ++i) {
+		//_dropout_nodes_after_hidden_nodes[i].forward(_pcg, &_hidden_nodes[i]);
+      _dropout_nodes_after_hidden_nodes[i].forward(_pcg, &_lstm_builder._hiddens.at(i));
     }
 
     _avg_pooling.forward(_pcg,
@@ -121,5 +148,6 @@ public:
     _neural_output.forward(_pcg, &_concat);
   }
 };
+
 
 #endif /* SRC_ComputionGraph_H_ */
